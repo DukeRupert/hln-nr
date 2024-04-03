@@ -1,53 +1,72 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import { Slider } from '$lib/components/ui/slider/index.js';
+	import { Button } from '$lib/components/ui/button';
+
+	function calculateTime(distance: number, speed: number): number {
+		// convert knots to mph
+		speed = speed * 1.15;
+		let hours = distance / speed;
+		let minutes = hours * 60;
+		return Math.round(minutes);
+	}
 
 	let distance = [0];
-	let speed = 90;
-	let time = 0;
+	let max_distance = 40;
+	let step_distance = 1;
+	let speed = [90];
+	let min_speed = 80;
+	let max_speed = 400;
+	let step_speed = 10;
+	$: time = calculateTime(distance[0], speed[0]);
 </script>
 
 <div class="mx-auto min-h-screen max-w-7xl px-4 sm:px-6 lg:px-8">
 	<!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
-	<div class="mx-auto max-w-5xl">
+	<div class="mx-auto grid h-screen max-w-5xl grid-cols-1 place-content-center">
 		<!-- Content goes here -->
 		<div class="overflow-hidden rounded-lg bg-white shadow">
-			<div class="grid grid-cols-1 gap-6 bg-red-500 px-4 py-5 sm:p-8 md:grid-cols-3 md:gap-12">
+			<div class="grid grid-cols-1 gap-2 p-4 sm:p-6 md:grid-cols-2 md:gap-6">
+				<Card.Root class="col-span-1 md:col-span-2">
+					<Card.Header
+						><Card.Title>Estimated time</Card.Title><Card.Description
+							>The estimated time to fly in minutes</Card.Description
+						></Card.Header
+					>
+					<Card.Content>
+						<p>{time}</p>
+					</Card.Content>
+				</Card.Root>
 				<!-- Content goes here -->
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Distance</Card.Title>
-						<Card.Description>The estimated distance to fly in miles</Card.Description>
+						<Card.Description>The distance to fly in miles</Card.Description>
 					</Card.Header>
 					<Card.Content>
 						<p>{distance}</p>
 					</Card.Content>
 					<Card.Footer>
-						<Slider bind:value={distance} max={40} step={1} class="max-w-[70%]" />
+						<Slider bind:value={distance} max={max_distance} step={step_distance} class="w-full" />
 					</Card.Footer>
 				</Card.Root>
 				<Card.Root>
 					<Card.Header>
 						<Card.Title>Speed</Card.Title>
-						<Card.Description>The aircrafts speed</Card.Description>
+						<Card.Description>The aircrafts speed in kts</Card.Description>
 					</Card.Header>
 					<Card.Content>
-						<p>Card Content</p>
+						<p>{speed}</p>
 					</Card.Content>
 					<Card.Footer>
-						<p>Card Footer</p>
-					</Card.Footer>
-				</Card.Root>
-				<Card.Root>
-					<Card.Header>
-						<Card.Title>Time</Card.Title>
-						<Card.Description>The estimated time to fly in minutes</Card.Description>
-					</Card.Header>
-					<Card.Content>
-						<p>Card Content</p>
-					</Card.Content>
-					<Card.Footer>
-						<p>Card Footer</p>
+						<Slider
+							bind:value={speed}
+							min={min_speed}
+							max={max_speed}
+							step={step_speed}
+							class="w-full"
+						/>
+						<!-- <Button variant="default">120</Button> -->
 					</Card.Footer>
 				</Card.Root>
 			</div>
