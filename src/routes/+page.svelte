@@ -25,7 +25,7 @@
 	<!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
 	<div class="mx-auto grid h-screen max-w-5xl grid-cols-1 place-content-center">
 		<!-- Content goes here -->
-		<div class="overflow-hidden rounded-lg bg-white shadow">
+		<div class="overflow-hidden rounded-lg shadow">
 			<div class="grid grid-cols-1 gap-2 p-4 sm:p-6 md:grid-cols-2 md:gap-6">
 				<Card.Root class="col-span-1 md:col-span-2">
 					<Card.Header
@@ -58,15 +58,23 @@
 					<Card.Content>
 						<p>{speed}</p>
 					</Card.Content>
-					<Card.Footer>
-						<Slider
-							bind:value={speed}
-							min={min_speed}
-							max={max_speed}
-							step={step_speed}
-							class="w-full"
-						/>
-						<!-- <Button variant="default">120</Button> -->
+					<Card.Footer class="flex w-full flex-col space-y-8">
+						<div class="w-full">
+							<Slider
+								bind:value={speed}
+								min={min_speed}
+								max={max_speed}
+								step={step_speed}
+								class="w-full"
+							/>
+						</div>
+						<div class="flex w-full space-x-2">
+							<Button variant="default" on:click={() => (speed = [90])}>90</Button>
+							<Button variant="default" on:click={() => (speed = [120])}>120</Button>
+							<Button variant="default" on:click={() => (speed = [150])}>150</Button>
+							<Button variant="default" on:click={() => (speed = [180])}>180</Button>
+							<Button variant="default" on:click={() => (speed = [210])}>210</Button>
+						</div>
 					</Card.Footer>
 				</Card.Root>
 			</div>
